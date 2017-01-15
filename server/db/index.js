@@ -5,3 +5,19 @@ var mysql = require('mysql');
 // and to the database "chat".
 
 
+exports.connection = mysql.createConnection({
+  host: 'localhost',
+  user: 'root',
+  password: '',
+  database: 'chat'
+});
+
+exports.connection.connect();
+
+// connection.query('SELECT 1 + 1 AS solution', function (err, rows, fields) {
+//   if (err) {
+//     throw err;
+//   }
+
+//   console.log('The solution is: ', rows[0].solution);
+// });
