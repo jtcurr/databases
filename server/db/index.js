@@ -12,7 +12,7 @@ var Message = orm.define('Message', {
 var mysql = require('mysql');
 
 // Create a database connection and export it from this file.
-// You will need to connect with the usser "root", no password,
+// You will need to connect with the ssers "root", no password,
 // and to the database "chat".
 
 
