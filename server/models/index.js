@@ -2,21 +2,19 @@ var db = require('../db');
 
 module.exports = {
   messages: {
-    get: function (req, res) {
-      console.log(req, res);
+    get: function (res) {
       //get all messages from messages table
       db.connection.query('SELECT * FROM MESSAGES', (err, data) => {
         if (err) {
           console.log('ERROR retrieving data');
         } else {
           console.log('success getting messages');
-          console.log('data: ' + data);
           res.end(JSON.stringify(data));
         }
       });
         //returns those to the client
     }, // a function which produces all the messages
-    post: function (req, res) {
+    post: function (res) {
       var text = req.message;
       var room = req.roomname;
       var username = req.username;
@@ -34,9 +32,28 @@ module.exports = {
 
   users: {
     // Ditto as above.
-    get: function () {},
-    post: function () {
-      console.log('yes');
+
+    get: function (callback) {
+      var queryStr = 'select * from users';
+      db.connection.query(queryStr, function(err, data) {
+        if (err) {
+          console.log('error');
+        }
+        else {
+         callback(data);
+        }
+      });
+    },
+    post: function (params, callback) {
+      var queryStr = 'INSERT INTO users(username) VALUE (?)';
+      db.connection.query(queryStr, params, function(err, data) {
+        if (err) {
+          console.log('error');
+        }
+        else {
+         callback(data);
+        }
+      });
     }
   }
 };

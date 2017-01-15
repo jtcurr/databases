@@ -1,3 +1,14 @@
+var Sequelize = require('Sequelize');
+var orm =  new Sequelize('chat', 'root', '');
+
+var User = orm.define('User', {
+	username: Sequelize.STRING
+});
+
+var Message = orm.define('Message', {
+
+});
+
 var mysql = require('mysql');
 
 // Create a database connection and export it from this file.
