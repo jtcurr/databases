@@ -19,5 +19,3 @@ Message.sync();
 
 exports.Message = Message;
 exports.User = User;
-
-var mysql = require('mysql');

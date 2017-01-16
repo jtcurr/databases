@@ -1,28 +1,36 @@
 var models = require('../models');
 
+
 module.exports = {
   messages: {
     get: function (req, res) {
-
-      models.messages.get(function(err, results){
-        if (err) {
-          console.log('ERROR in controller');
-        }
-        else {
-          res.JSON(results);
+      Message.findAll( { include: [User] } ).complete(function(error, results) {
+        if(error) {
+          throw error;
+        } else {
+        res.JSON(results);
         }
       });
-
     }, // a function which handles a get request for all messages
     post: function (req, res) {
-
-      models.messages.post(req.body, (err, data) => {
-        if (err) {
-          console.log('Error adding post to model');
+      User.findOrCreate( {username: req.body[username] } ).complete(function (err, user) {
+        if (error) {
+          throw error;
         }
-        console.log('Message sent to model');
-        req.send(data);
+      var params = {
+        text: req.body[text],
+        userid: user.id,
+        roomname: req.body[roomname]
+      }
+      Message.create(params).complete(function (error, reults){
+        if (error) {
+          throw error;
+        }
+        else {
+          req.sendStatus(201);
+        }
       });
+    });
     } // a function which handles posting a message to the database
   },
 
@@ -30,24 +38,18 @@ module.exports = {
   users: {
     // Ditto as above
     get: function (req, res) {
-      models.users.get(function(err, results){
-        if (err) {
-          console.log('ERROR in controller');
-        }
-        else {
-          res.JSON(results);
+       User.findAll().complete(function(error, results) {
+        if(error) {
+          throw error;
+        } else {
+        res.JSON(results);
         }
       });
     },
     post: function (req, res) {
-      models.messages.post(req.body, (err, data) => {
-        if (err) {
-          console.log('Error adding post to model');
-        }
-        console.log('User names sent to model');
-        req.send(data);
-      });
-    }
-  }
+     User.Create( {username: req.body[username] } )
+     .complete(function (err, results) {
+       res.JSON(201);
+  } 
 };
 
